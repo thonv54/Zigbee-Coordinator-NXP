@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="com.beyondsemi.toolchain.gnu.ba.elf.base.867782939">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.beyondsemi.toolchain.gnu.ba.elf.base.867782939" moduleId="org.eclipse.cdt.core.settings" name="Default">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildProperties="" description="" id="com.beyondsemi.toolchain.gnu.ba.elf.base.867782939" name="Default" parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo id="com.beyondsemi.toolchain.gnu.ba.elf.base.867782939.1065697800" name="/" resourcePath="">
+						<toolChain id="com.beyondsemi.toolchain.gnu.ba.elf.base.1639956665" name="com.beyondsemi.toolchain.gnu.ba.elf.base" superClass="com.beyondsemi.toolchain.gnu.ba.elf.base">
+							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF" id="com.beyondsemi.target.gnu.platform.ba.elf.1450225547" superClass="com.beyondsemi.target.gnu.platform.ba.elf"/>
+							<builder arguments="JENNIC_CHIP=JN5168" command="make" id="com.beyondsemi.builder.cdt.gnu.1940342995" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="com.beyondsemi.builder.cdt.gnu">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name=""/>
+								</outputEntries>
+							</builder>
+							<tool id="com.beyondsemi.tool.gnu.ba.elf.compiler.c.base.1608543337" name="BA ELF GNU C compiler" superClass="com.beyondsemi.tool.gnu.ba.elf.compiler.c.base">
+								<inputType id="com.beyondsemi.base.ba.elf.c.compiler.input.485169817" superClass="com.beyondsemi.base.ba.elf.c.compiler.input"/>
+								<inputType id="com.beyondsemi.assembler.macro.input.2140062466" superClass="com.beyondsemi.assembler.macro.input"/>
+							</tool>
+							<tool id="com.beyondsemi.tool.gnu.ba.elf.compiler.cpp.base.1143792957" name="BA ELF GNU C++ compiler" superClass="com.beyondsemi.tool.gnu.ba.elf.compiler.cpp.base"/>
+							<tool id="com.beyondsemi.tool.gnu.ba.elf.linker.c.base.101648655" name="BA ELF GNU C linker" superClass="com.beyondsemi.tool.gnu.ba.elf.linker.c.base">
+								<option id="gnu.c.link.option.paths.938545285" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;C:\NXP\bstudio_nxp\sdk\JN-SW-4168&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\NXP\bstudio_nxp\workspace\Zigbee Coordinator&quot;"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.1573944187" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="com.beyondsemi.tool.gnu.ba.elf.linker.cpp.base.1420104319" name="BA ELF GNU C++ linker" superClass="com.beyondsemi.tool.gnu.ba.elf.linker.cpp.base"/>
+							<tool id="com.beyondsemi.tool.gnu.ba.elf.assembler.base.270582482" name="BA ELF GNU assembler" superClass="com.beyondsemi.tool.gnu.ba.elf.assembler.base">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1242110994" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+								<inputType id="com.beyondsemi.assembler.input.244225598" superClass="com.beyondsemi.assembler.input"/>
+							</tool>
+							<tool id="com.beyondsemi.tool.gnu.ba.elf.archiver.base.524549908" name="BA ELF GNU archiver" superClass="com.beyondsemi.tool.gnu.ba.elf.archiver.base"/>
+							<tool id="com.beyondsemi.tool.gnu.ba.elf.size.base.215884194" name="BA ELF GNU size" superClass="com.beyondsemi.tool.gnu.ba.elf.size.base"/>
+							<tool id="com.beyondsemi.tool.gnu.ba.elf.objcopy.base.328377959" name="BA ELF GNU objcopy" superClass="com.beyondsemi.tool.gnu.ba.elf.objcopy.base"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="AN1184_ZBP_Coordinator"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Common"/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="Zigbee Coordinator.null.1915274345" name="Zigbee Coordinator"/>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.pathentry"/>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Default">
+			<resource resourceType="PROJECT" workspacePath="/Zigbee Coordinator"/>
+		</configuration>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="com.beyondsemi.toolchain.gnu.ba.elf.base.867782939;com.beyondsemi.toolchain.gnu.ba.elf.base.867782939.1065697800;com.beyondsemi.tool.gnu.ba.elf.compiler.c.base.1608543337;com.beyondsemi.base.ba.elf.c.compiler.input.485169817">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.beyondsemi.base.elf.c.scanner.configdiscovery"/>
+		</scannerConfigBuildInfo>
+	</storageModule>
+</cproject>
