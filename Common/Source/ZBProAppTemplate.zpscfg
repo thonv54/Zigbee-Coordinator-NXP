@@ -269,7 +269,7 @@
       <OutputClusters Cluster="Mgmt_Cache_rsp" TxAPDUs="AN1184_ZBP_Coordinator->apduZDP" Discoverable="false"/>
       <OutputClusters Cluster="Mgmt_NWK_Update_rsp" TxAPDUs="AN1184_ZBP_Coordinator->apduZDP" Discoverable="false"/>
     </Endpoints>
-    <Endpoints Id="1" Enabled="true" ApplicationDeviceId="0" ApplicationDeviceVersion="0" Profile="HOME_AUTOMATION" Message="APP_msgMyEndPointEvents" Name="Coordinator_EndPoint">
+    <Endpoints Id="1" Enabled="true" ApplicationDeviceId="0" ApplicationDeviceVersion="0" Profile="HOME_AUTOMATION" Message="APP_msgCoordinator_EndPointEvents" Name="Coordinator_EndPoint">
       <InputClusters Cluster="Identify" RxAPDU="AN1184_ZBP_Coordinator->apduMyData" Discoverable="true"/>
       <InputClusters Cluster="OnOff" RxAPDU="AN1184_ZBP_Coordinator->apduMyData" Discoverable="true"/>
       <OutputClusters Cluster="Basic" TxAPDUs="AN1184_ZBP_Coordinator->apduMyData" Discoverable="true"/>

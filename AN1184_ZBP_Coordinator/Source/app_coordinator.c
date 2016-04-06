@@ -45,6 +45,7 @@
 #include "UART.h"
 #include "os_gen.h"
 #include "app_common.h"
+#include "app_coordinator.h"
 
 /****************************************************************************/
 /***        Macro Definitions                                             ***/
@@ -88,7 +89,7 @@
  ****************************************************************************/
 PUBLIC void APP_vInitialiseCoordinator(void)
 {
-    bool_t bDeleteRecords = FALSE;
+    bool_t bDeleteRecords = TRUE;
     uint16 u16DataBytesRead;
 
     /* If required, at this point delete the network context from flash, perhaps upon some condition
@@ -264,6 +265,7 @@ PUBLIC void vStartup(void)
 PUBLIC void vWaitForNetworkFormation(ZPS_tsAfEvent sStackEvent)
 {
     /* wait for network stack to start up as a coordinator */
+
     if (ZPS_EVENT_NONE != sStackEvent.eType)
     {
         if (ZPS_EVENT_NWK_STARTED == sStackEvent.eType)
@@ -284,7 +286,11 @@ PUBLIC void vWaitForNetworkFormation(ZPS_tsAfEvent sStackEvent)
                             	&s_eDeviceState,
                             	sizeof(s_eDeviceState));
         }
+        else{
+        	DBG_vPrintf(TRACE_APP, "APP: Network Not Started Error %x\r\n",sStackEvent.eType);
+        }
     }
+
 }
 
 /****************************************************************************

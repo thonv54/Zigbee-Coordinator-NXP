@@ -214,7 +214,7 @@ PRIVATE void vInitialiseApp(void)
  * NAME: vfExtendedStatusCallBack
  *
  * DESCRIPTION:
- * ZPS extended error callback .
+ * ZPS extended error callback.
  *
  * RETURNS:
  * void

@@ -99,11 +99,11 @@ CFLAGS   += -DPDM_USER_SUPPLIED_ID
 #SDK_BASE_DIR   	 	= ../../../../sdk/$(JENNIC_SDK)
 APP_BASE           	= ../..
 SDK_BASE_DIR        = C:\NXP\bstudio_nxp\sdk\JN-SW-4168
-#APP_BASE            = C:\NXP\bstudio_nxp\workspace\JN-AN-1184\JN-AN-1184
 APP_BLD_DIR			= $(APP_BASE)/$(TARGET)/Build
 APP_SRC_DIR 	   	= $(APP_BASE)/$(TARGET)/Source
 APP_COMMON_SRC_DIR  = $(APP_BASE)/Common/Source
 UTIL_SRC_DIR        = $(COMPONENTS_BASE_DIR)/Utilities/Source
+APP_CLI_DIR			= $(APP_BASE)/$(TARGET)/Source/CLI
 
 ##############################################################################
 # Application Source files
@@ -129,6 +129,8 @@ APPSRC += app_exceptions.c
 APPSRC += app_pdm.c
 APPSRC += ButtonScan.c
 APPSRC += UART.c
+APPSRC += FormAndJoin.c
+
 
 
 
@@ -141,6 +143,9 @@ ZBPRO_OVERLAYS = $(shell $(OSCONFIG) -f $(APP_SRC_DIR)/App_$(TARGET)_$(JENNIC_CH
 INCFLAGS += -I$(APP_SRC_DIR)
 INCFLAGS += -I$(APP_SRC_DIR)/..
 INCFLAGS += -I$(APP_COMMON_SRC_DIR)
+INCFLAGS += -I$(APP_CLI_DIR)
+
+
 
 # Application specific include files
 INCFLAGS += -I$(COMPONENTS_BASE_DIR)/Utilities/Include
@@ -192,7 +197,8 @@ LDLIBS := $(APPLDLIBS) $(LDLIBS)
 
 .PHONY: all clean
 # Path to directories containing application source 
-vpath % $(APP_SRC_DIR):$(APP_COMMON_SRC_DIR):$(UTIL_SRC_DIR)
+vpath % $(APP_SRC_DIR):$(APP_COMMON_SRC_DIR):$(UTIL_SRC_DIR):$(APP_CLI_DIR)
+
 
 
 all: $(TARGET)_$(JENNIC_CHIP)$(BIN_SUFFIX).bin

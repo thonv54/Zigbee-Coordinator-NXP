@@ -47,6 +47,8 @@
 #include "app_common.h"
 #include "app_coordinator.h"
 #include "PDM_IDs.h"
+#include "FormAndJoin.h"
+#include "stdlib.h"
 
 /****************************************************************************/
 /***        Macro Definitions                                             ***/
@@ -63,11 +65,11 @@
 #define UartCommandBuffer		2
 #define UartPacketLengthMax		20
 
-typedef enum{
-	NetworkForm,
-	NetworkLeave,
-	NetworkFindUnused,
-}CLI_CommandEnum;
+//typedef enum{
+//	NetworkForm,
+//	NetworkLeave,
+//	NetworkFindUnused,
+//}CLI_CommandEnum;
 /****************************************************************************/
 /***        Local Function Prototypes                                     ***/
 /****************************************************************************/
@@ -81,7 +83,7 @@ typedef enum{
 /****************************************************************************/
 //PRIVATE CLI_CommandEnum CLI_Command;
 
-string UartPacketData[UartCommandBuffer][UartPacketLengthMax];
+uint8* UartPacketData[UartCommandBuffer][UartPacketLengthMax];
 uint8 PacketCnt	= 0;
 uint8 UartCommandNumber;
 uint8 NextUartCommandNumber;
@@ -91,6 +93,12 @@ uint8 UartCommandPos;
 /****************************************************************************/
 /***        Exported Functions                                            ***/
 /****************************************************************************/
+
+void removeSubstring(char *s,const char *toremove)
+{
+  while( s=strstr(s,toremove) )
+    memmove(s,s+strlen(toremove),1+strlen(s+strlen(toremove)));
+}
 
 void InitUart(void){
 	uint8 i;
@@ -144,32 +152,38 @@ OS_TASK(UartCommandExec){
 
 
 		if(strncmp(UartPacketData[NextUartCommandNumber], "network form", strlen("network form")) == 0){
-			s_eDeviceState = E_STARTUP;
-			s_eDeviceState = PDM_eReadDataFromRecord(PDM_ID_APP_COORD,
-			                      		&s_eDeviceState,
-			                       		sizeof(s_eDeviceState),
-			                       		&u16DataBytesRead);
-			if(s_eDeviceState = E_STARTUP){
-				vStartup();
-			}
-
-			DBG_vPrintf(TRACE_APP, "network form ok \n");
+			DBG_vPrintf(TRACE_APP, "network form.... \n");
+			CLI_NetworkForm();
 		}
 
 		else if(strncmp(UartPacketData[NextUartCommandNumber], "network find unused", strlen("network find unused")) == 0){
 
-			DBG_vPrintf(TRACE_APP, "network find unused ok \n");
+			DBG_vPrintf(TRACE_APP, "network find unused.... \n");
+			CLI_NetworkForm();
 		}
 
 		else if(strncmp(UartPacketData[NextUartCommandNumber], "network leave", strlen("network leave")) == 0){
-			DBG_vPrintf(TRACE_APP, "network leave ok \n");
-	        DBG_vPrintf(TRACE_APP, "APP: Deleting all records from flash\n");
-	        PDM_vDeleteAllDataRecords();
-	        s_eDeviceState = E_NETWORK_FORMATION;
-	        PDM_eSaveRecordData(PDM_ID_APP_COORD,
-								&s_eDeviceState,
-								sizeof(s_eDeviceState));
+			DBG_vPrintf(TRACE_APP, "network leave... \n");
+			CLI_NetworkLeave();
 
+		}
+		else if(strncmp(UartPacketData[NextUartCommandNumber], "network pjoin", strlen("network pjoin")) == 0){
+			{
+				char dataStr[5] = "\0";
+				uint8 ptime;
+				removeSubstring(UartPacketData[NextUartCommandNumber],"network pjoin ");
+				memcpy(dataStr,UartPacketData[NextUartCommandNumber],4);
+				if(strncmp(dataStr, "0x", strlen("0x")) == 0){
+					ptime = (uint8)strtol(dataStr, '\0', 0);
+					CLI_Pjoin(ptime);
+				}
+				else{
+					DBG_vPrintf(TRACE_APP,"Input Format Error \n");
+				}
+//				DBG_vPrintf(TRACE_APP,"data is %d \n",ptime);
+//				DBG_vPrintf(TRACE_APP,"data is %s \n",UartPacketData[NextUartCommandNumber]);
+
+			}
 		}
 
 		CompleteCommand();

@@ -2,9 +2,9 @@
  *
  * MODULE:				JN-AN-1184 ZigBeePro Application Template
  *
- * COMPONENT:			app_endpoint.c
+ * COMPONENT:          	FormAndJoin.c
  *
- * DESCRIPTION:			End Point Event Handler
+ * DESCRIPTION:        	Exception routines
  *
  *****************************************************************************
  *
@@ -36,11 +36,17 @@
 /***        Include files                                                 ***/
 /****************************************************************************/
 #include <jendefs.h>
-#include <dbg.h>
 #include <os.h>
-#include <zps_apl_af.h>
-
+#include <dbg.h>
 #include "os_gen.h"
+#include "UART.h"
+#include "AppHardwareApi.h"
+#include "string.h"
+#include "app_timer_driver.h"
+#include "PDM.h"
+#include "app_common.h"
+#include "app_coordinator.h"
+#include "PDM_IDs.h"
 
 /****************************************************************************/
 /***        Macro Definitions                                             ***/
@@ -54,7 +60,13 @@
 /****************************************************************************/
 /***        Type Definitions                                              ***/
 /****************************************************************************/
+#define CLI_NetworkFindUnused	CLI_NetworkForm
 
+typedef enum{
+	NetworkForm,
+	NetworkLeave,
+	NetworkFindUnused,
+}CLI_CommandEnum;
 /****************************************************************************/
 /***        Local Function Prototypes                                     ***/
 /****************************************************************************/
@@ -70,75 +82,40 @@
 /****************************************************************************/
 /***        Exported Functions                                            ***/
 /****************************************************************************/
-/****************************************************************************
- *
- * NAME: APP_taskEndpoint
- *
- * DESCRIPTION:
- * End Point event handling
- *
- * RETURNS:
- * void
- *
- ****************************************************************************/
-OS_TASK(APP_msgCoordinator_EndPointEvents)
-{
-    ZPS_tsAfEvent sStackEvent;
-    sStackEvent.eType = ZPS_EVENT_NONE;
 
-    /* check if any messages to collect */
-    if (OS_E_OK != OS_eCollectMessage(APP_msgCoordinator_EndPointEvents, &sStackEvent))
+
+PUBLIC void CLI_NetworkForm(void){
+	ZPS_eAplAfInit();
+    ZPS_teStatus eStatus = ZPS_eAplZdoStartStack();
+    if (ZPS_E_SUCCESS == eStatus)
     {
-        DBG_vPrintf(TRACE_APP, "APP: No event to process endpoint task\n");
+        s_eDeviceState = E_NETWORK_FORMATION;
     }
-
-    if (ZPS_EVENT_NONE != sStackEvent.eType)
+    else
     {
-        switch (sStackEvent.eType)
-        {
-            case ZPS_EVENT_APS_DATA_INDICATION:
-            {
-                DBG_vPrintf(TRACE_APP, "APP: APP_taskEndPoint: ZPS_EVENT_AF_DATA_INDICATION\n");
-
-                /* Process incoming cluster messages for this endpoint... */
-                DBG_vPrintf(TRACE_APP, "    Data Indication:\r\n");
-                DBG_vPrintf(TRACE_APP, "        Profile :%x\r\n",sStackEvent.uEvent.sApsDataIndEvent.u16ProfileId);
-                DBG_vPrintf(TRACE_APP, "        Cluster :%x\r\n",sStackEvent.uEvent.sApsDataIndEvent.u16ClusterId);
-                DBG_vPrintf(TRACE_APP, "        EndPoint:%x\r\n",sStackEvent.uEvent.sApsDataIndEvent.u8DstEndpoint);
-
-                /* free the application protocol data unit (APDU) once it has been dealt with */
-                PDUM_eAPduFreeAPduInstance(sStackEvent.uEvent.sApsDataIndEvent.hAPduInst);
-            }
-            break;
-
-            case ZPS_EVENT_APS_DATA_CONFIRM:
-            {
-                DBG_vPrintf(TRACE_APP, "APP: APP_taskEndPoint: ZPS_EVENT_APS_DATA_CONFIRM Status %d, Address 0x%04x\n",
-                            sStackEvent.uEvent.sApsDataConfirmEvent.u8Status,
-                            sStackEvent.uEvent.sApsDataConfirmEvent.uDstAddr.u16Addr);
-            }
-            break;
-
-            case ZPS_EVENT_APS_DATA_ACK:
-            {
-            	DBG_vPrintf(TRACE_APP, "APP: APP_taskEndPoint: ZPS_EVENT_APS_DATA_ACK Status %d, Address 0x%04x\n",
-                            sStackEvent.uEvent.sApsDataAckEvent.u8Status,
-                            sStackEvent.uEvent.sApsDataAckEvent.u16DstAddr);
-            }
-            break;
-
-            default:
-            {
-            	DBG_vPrintf(TRACE_APP, "APP: APP_taskEndPoint: unhandled event %d\n", sStackEvent.eType);
-            }
-            break;
-        }
+        DBG_vPrintf(TRACE_APP, "APP: ZPS_eZdoStartStack() failed error %d", eStatus);
     }
 }
 
-/****************************************************************************/
-/***        Local Functions                                               ***/
-/****************************************************************************/
+PUBLIC void CLI_NetworkLeave(void){
+    PDM_vDeleteAllDataRecords();
+    DBG_vPrintf(TRACE_APP, "APP: Deleting all records from flash\n");
+    s_eDeviceState = E_NETWORK_FORMATION;
+    PDM_eSaveRecordData(PDM_ID_APP_COORD,
+                    	E_NETWORK_INIT,
+                    	sizeof(E_NETWORK_INIT));
+}
+
+PUBLIC void CLI_Pjoin(uint8 time){
+	ZPS_teStatus eStatus = ZPS_eAplZdoPermitJoining(time);
+	if(ZPS_E_SUCCESS == eStatus){
+		DBG_vPrintf(TRACE_APP, "Permit Join 0x%x \n",time);
+	}
+	else{
+		DBG_vPrintf(TRACE_APP, "Permit Join Error 0x%x :  \n",eStatus);
+	}
+}
+
 
 /****************************************************************************/
 /***        END OF FILE                                                   ***/

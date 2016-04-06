@@ -2,9 +2,9 @@
  *
  * MODULE:				JN-AN-1184 ZigBeePro Application Template
  *
- * COMPONENT:			app_common.h
+ * COMPONENT:			FormAndJoin.h
  *
- * DESCRIPTION:			Application Device Type Includes
+ * DESCRIPTION:			Coordinator Application
  *
  *****************************************************************************
  *
@@ -32,66 +32,34 @@
  * Copyright NXP B.V. 2015. All rights reserved
  *
  ****************************************************************************/
-#ifndef APP_COMMON_H_
-#define APP_COMMON_H_
-
-/* Device specific includes */
-#ifdef Coordinator
-    #include "App_Coordinator.h"
-#endif
-
-#ifdef Router
-    #include "App_Router.h"
-#endif
-
-#ifdef SleepingEndDevice
-    #include "App_SED.h"
-#endif
+#ifndef FORMANDJOIN_H_
+#define FORMANDJOIN_H_
+#include "jendefs.h"
 
 /****************************************************************************/
 /***        Macro Definitions                                             ***/
 /****************************************************************************/
-//#define POLL_TIME               APP_TIME_MS(1000)
-//#define POLL_TIME_FAST          APP_TIME_MS(100)
-//#define TEN_HZ_TICK_TIME        APP_TIME_MS(100)
+
 
 /****************************************************************************/
 /***        Type Definitions                                              ***/
 /****************************************************************************/
 
-typedef enum
-{
-    E_STARTUP,
-    E_LEAVE_WAIT,
-    E_LEAVE_RESET,
-    E_NFN_START,
-    E_DISCOVERY,
-    E_NETWORK_FORMATION,
-    E_JOINING_NETWORK,
-    E_REJOINING,
-    E_NETWORK_INIT,
-    E_RESCAN,
-    E_RUNNING
-} teNODE_STATES;
-
-
-typedef struct
-{
-    teNODE_STATES   eNodeState;
-    teNODE_STATES   eNodePrevState;
-}tsDeviceDesc;
-
-#define teDeviceState teNODE_STATES
 /****************************************************************************/
 /***        Exported Functions                                            ***/
 /****************************************************************************/
+PUBLIC void CLI_NetworkForm(void);
+PUBLIC void CLI_NetworkLeave(void);
+PUBLIC void CLI_Pjoin(uint8 time);
 
 /****************************************************************************/
 /***        External Variables                                            ***/
 /****************************************************************************/
-PUBLIC teDeviceState s_eDeviceState;
+
+
+
 /****************************************************************************/
 /***        END OF FILE                                                   ***/
 /****************************************************************************/
 
-#endif /*APP_COMMON_H_*/
+#endif /*APP_COORD_H_*/
